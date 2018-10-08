@@ -8,14 +8,13 @@ Add new git repository on your existing system, If code already exits in your lo
 * git init
 * git add README.md
 * git commit -m "first commit"
-* git remote add origin https://github.com/info-ankit/node-express-rest-shop.git
+* git remote add origin https://github.com/abhisheky2290/test_app.git
 * git push -u origin master
 
 Clone new git repository on your existing system, when you want to get whole code from git.
 
-* git clone https://github.com/info-ankit/node-express-rest-shop.git
+* git clone https://github.com/abhisheky2290/test_app.git
 * git status
-* cd node-express-rest-shop
 * npm install
 * npm start
 
@@ -23,5 +22,5 @@ Clone new git repository on your existing system, when you want to get whole cod
 
 Push your code from local to git.
 
-* git remote add origin https://github.com/info-ankit/node-express-rest-shop.git
+* git remote add origin https://github.com/abhisheky2290/test_app.git
 * git push -u origin master
