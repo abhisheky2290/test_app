@@ -1,0 +1,9 @@
+{
+  "env": {
+    "PORT": 3000,
+    "DB_HOST":"localhost",
+    "DB_USR": "root",
+    "DB_PWD": "",
+	"DATABASE_NAME":"node_tutorial"
+  }
+}
