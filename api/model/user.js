@@ -38,5 +38,21 @@ function getById(req) {
   });
 }
 
+function save(req) {
+  conn=db.connectDatabase();
+  return Q.Promise(function (resolve, reject, notify) {
+    var sql="Insert into "+_table+"(fname,lname,username,email,mobile) values('"+req.fname+"','"+req.lname+"','"+req.username+"','"+req.email+"','"+req.mobile+"')";
+    conn.query(sql, function(err, result,fields) {
+      if (err) {
+        reject(err);
+      }
+      else {
+        resolve(result);
+      }
+    });    
+  });
+}
+
 module.exports.get = get;
 module.exports.getById = getById;
+module.exports.save = save;
