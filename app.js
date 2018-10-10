@@ -1,7 +1,7 @@
 const Express = require('express');
 const Morgan = require('morgan');
 const BodyParser = require('body-parser');
-
+const expressValidator = require('express-validator')
 const apiRoute = require('./api/api');
 // const routeOrders = require('./api/routes/orders');
 // const routeProducts = require('./api/routes/products');
@@ -12,6 +12,7 @@ app.use(Morgan('dev'));
 // BODY PARSER.
 app.use(BodyParser.urlencoded({extended: false}))
 app.use(BodyParser.json());
+app.use(expressValidator());
 // CRUD.
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
