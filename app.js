@@ -1,7 +1,8 @@
 const Express = require('express');
 const Morgan = require('morgan');
 const BodyParser = require('body-parser');
-const expressValidator = require('express-validator')
+const expressValidator = require('express-validator');
+var customValidators = require('./middlewares/customValidators');
 const apiRoute = require('./api/api');
 // const routeOrders = require('./api/routes/orders');
 // const routeProducts = require('./api/routes/products');
@@ -12,7 +13,10 @@ app.use(Morgan('dev'));
 // BODY PARSER.
 app.use(BodyParser.urlencoded({extended: false}))
 app.use(BodyParser.json());
-app.use(expressValidator());
+app.use(expressValidator({
+    customValidators: customValidators
+})
+);
 // CRUD.
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");

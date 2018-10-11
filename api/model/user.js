@@ -22,9 +22,33 @@ function getById(param) {
   var where = {};
   if (param && param.user_id != null)
     where['user_id'] = param.user_id;
+  if(param && param.email != null){
+    where['email'] = param.email;
+  }
   return Q.Promise(function (resolve, reject, notify) {
     var sql = knex(_table).select('*')
       .where(where)
+      .then(function (result) {
+       resolve(result)
+    })
+    .catch (function (err) {
+      reject(err)
+    });   
+  });
+}
+
+function validateUser(param) {
+  var whereUser = {};
+  var whereEmail = {};
+  if (param && param.username != null)
+    whereUser['username'] = param.username;
+  if(param && param.email != null){
+    whereEmail['email'] = param.email;
+  }
+  return Q.Promise(function (resolve, reject, notify) {
+    var sql = knex(_table).select('*')
+      .where(whereUser)
+      .orWhere(whereEmail)
       .then(function (result) {
        resolve(result)
     })
@@ -42,13 +66,11 @@ function save(fields, where) {
       .where(where)
       .update(fields)
       .then(function (result) {
-        console.log('result update()', result);
         resolve(result);
       }).catch (reject);
 
     } else {
       //-- INSERT RECORD --
-      
       return knex(_table)
       .insert(fields)
       .then(function (result) {
@@ -88,3 +110,4 @@ module.exports.get = get;
 module.exports.getById = getById;
 module.exports.save = save;
 module.exports.getEntity = getEntity;
+module.exports.validateUser = validateUser;

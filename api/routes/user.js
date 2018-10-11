@@ -40,13 +40,33 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+  req.checkBody('username', "user name required").notEmpty();
+  req.checkBody('email', "valid email required").isEmail();
+  req.checkBody('email', "email required").notEmpty();
+  req.checkBody('password', "password required with minimum 6 characters").notEmpty().isLength({ min: 4 });
+  req.checkBody('status', "Invalid argument. Only accept 1 / 2 / 3").optional().enum([1,2,3,'1','2','3']);
+  if (req.validationErrors()) {
+    return res.status(400).send(req.validationErrors());
+  }
   var default_user = {
     status: 1,
     created_on: new Date()
   };
   var entity = _.assign(default_user, user.getEntity(req.body)); //get filtered data
   entity.password = crypto.createHash('md5').update(req.body.password).digest("hex");
-  user.save(entity)
+
+   user.validateUser({email:entity.email,username:entity.username})
+  .then(function(result){
+    if(result.length == 0){
+      return user.save(entity)
+    }else{
+      const err = Error();
+      err.message = 'Email/username already in use';
+      err.code = 200;
+      err.status = 'AlreadyExists';
+      throw err;
+    }
+  })
   .then(function (result) {
     var inserted_id = (result && result[0] != null) ? result[0] : null;
     if (inserted_id != null) {
